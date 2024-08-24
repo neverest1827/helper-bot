@@ -8,15 +8,15 @@ const upload = multer();
 router.get('/', authMiddleware, async (req, res, next) => {
     const timeFilter = req.query.timeFilter ?? 'today';
     const statusFilter = req.query.statusFilter ?? 'all';
+    const chatFilter = req.query.chatFilter ?? 'all';
 
     const [requests, chats, statuses] = await Promise.all([
-        AdminService.getRequests(timeFilter, statusFilter),
+        AdminService.getRequests(timeFilter, statusFilter, chatFilter),
         AdminService.getChats(),
         AdminService.getStatuses()
     ]);
 
-    console.log(statuses);
-    res.render('admin', {requests, chats, statuses, timeFilter, statusFilter});
+    res.render('admin', {requests, chats, statuses, timeFilter, statusFilter, chatFilter});
 });
 
 router.post('/request', upload.none(), async (req, res) => {

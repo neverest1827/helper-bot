@@ -15,48 +15,36 @@
     <form class="filter">
         <fieldset>
             <legend>За период</legend>
-            <label>
-                <input type="radio" name="timeFilter" value="today" <%= timeFilter === 'today' ? 'checked' : '' %> />
-                День
-            </label>
-            <label>
-                <input type="radio" name="timeFilter" value="month" <%= timeFilter === 'month' ? 'checked' : '' %> />
-                Месяц
-            </label>
-            <label>
-                <input type="radio" name="timeFilter" value="all" <%= timeFilter === 'all' ? 'checked' : '' %> />
-                Все время
-            </label>
+            <select name="timeFilter" id="timeFilter">
+                <option value="today" <%= timeFilter === 'today' ? 'selected' : '' %>>День</option>
+                <option value="month" <%= timeFilter === 'month' ? 'selected' : '' %>>Месяц</option>
+                <option value="all" <%= timeFilter === 'all' ? 'selected' : '' %>>Все время</option>
+            </select>
         </fieldset>
 
         <fieldset>
             <legend>Статус заявки</legend>
-            <label>
-                <input type="radio" name="statusFilter" value="work" <%= statusFilter === 'work' ? 'checked' : '' %> />
-                В работе
-            </label>
-            <label>
-                <input type="radio" name="statusFilter" value="modern" <%= statusFilter === 'modern' ? 'checked' : '' %> />
-                Модерн
-            </label>
-            <label>
-                <input type="radio" name="statusFilter" value="closed" <%= statusFilter === 'closed' ? 'checked' : '' %> />
-                Закрыты
-            </label>
-            <label>
-                <input type="radio" name="statusFilter" value="denied" <%= statusFilter === 'denied' ? 'checked' : '' %> />
-                Отказы
-            </label>
-            <label>
-                <input type="radio" name="statusFilter" value="work%2Bmodern" <%= statusFilter === 'work+modern' ? 'checked' : '' %> />
-                В работе + Модерн
-            </label>
-            <label>
-                <input type="radio" name="statusFilter" value="all" <%= statusFilter === 'all' ? 'checked' : '' %> />
-                Все
-            </label>
+            <select name="statusFilter" id="statusFilter">
+                <option value="work" <%= statusFilter === 'work' ? 'selected' : '' %>>В работе</option>
+                <option value="modern" <%= statusFilter === 'modern' ? 'selected' : '' %>>Модерн</option>
+                <option value="closed" <%= statusFilter === 'closed' ? 'selected' : '' %>>Закрыты</option>
+                <option value="denied" <%= statusFilter === 'denied' ? 'selected' : '' %>>Отказы</option>
+                <option value="work+modern" <%= statusFilter === 'work+modern' ? 'selected' : '' %>>В работе + Модерн</option>
+                <option value="all" <%= statusFilter === 'all' ? 'selected' : '' %>>Все</option>
+            </select>
         </fieldset>
 
+        <fieldset>
+            <legend>Выберите чат</legend>
+            <select id="chatFilter" name="chatFilter">
+                <option value="all" <%= chatFilter === 'all' ? 'selected' : '' %> %>>Все</option>
+                <% chats.forEach(chat => { %>
+                    <option value="<%= chat.id %>" <%= Number(chatFilter) === chat.id ? 'selected' : '' %> %>>
+                        <%= chat.name %>
+                    </option>
+                <% }) %>
+            </select>
+        </fieldset>
         <button class="filter__btn" type="submit">Загрузить</button>
     </form>
     <section class="info">
@@ -65,7 +53,7 @@
                 <ul class="info__form-list form__list">
                     <% requests.forEach(request => { %>
                         <li class="form__list-item">
-                            <form class="form form__update <%= statuses[request.status_id].value%>" data-id="<%= request.id %>" action="">
+                            <form class="form form__update <%= statuses[request.status_id-1].value%>" data-id="<%= request.id %>" action="">
                                 <div class="form-group">
                                     <label for="time-from_<%= request.id %>">Время с:</label>
                                     <input id="time-from_<%= request.id %>" class="time" type="datetime-local"  name="time-from" value="<%= request.date_from %>">

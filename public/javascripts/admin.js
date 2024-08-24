@@ -24,10 +24,11 @@ function addFilterListener() {
     filterForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const timeFilter = document.querySelector('input[name="timeFilter"]:checked').value;
-        const statusFilter = document.querySelector('input[name="statusFilter"]:checked').value;
+        const timeFilter = document.querySelector('select[name="timeFilter"]').value;
+        const statusFilter = document.querySelector('select[name="statusFilter"]').value;
+        const chatId = document.querySelector('select[name="chatFilter"]').value;
 
-        window.location.href = `/admin?timeFilter=${timeFilter}&statusFilter=${statusFilter}`;
+        window.location.href = `/admin?timeFilter=${timeFilter}&statusFilter=${encodeURIComponent(statusFilter)}&chatFilter=${chatId}`;
     });
 }
 

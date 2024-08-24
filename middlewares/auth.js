@@ -1,6 +1,10 @@
 const auth = require('basic-auth');
+require('dotenv').config();
 
-const credentials = { name: 'admin', pass: 'Nb2Gtv8Cc' }; // Замените на свои логин и пароль
+const name = process.env.NAME;
+const pass = process.env.PASS;
+
+const credentials = { name, pass };
 
 function authMiddleware(req, res, next) {
     const user = auth(req);

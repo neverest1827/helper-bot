@@ -68,7 +68,6 @@ class BotService {
     async updateNote(id, text) {
         const [notes] = await pool.query('SELECT master_notes FROM requests WHERE id = ?', [id]);
         const note = notes[0].master_notes + `\n${text}`;
-        console.log(note)
         const sql_updateNote = await sqlManager.getSQL('updateNote');
         await pool.query(sql_updateNote, [note, id]);
     }
@@ -120,13 +119,13 @@ class BotService {
         if (requests.length) {
             requests.map((req) => {
                 req.status === 'modern' ? modernCount++ : closedCount++;
-                totalPaycheck += req.paycheck;
+                totalPaycheck += Number(req.paycheck);
             })
 
-            return `Статистика за сегодня:\nЗаявок в модерне = ${modernCount}\nЗаявок закрытых: ${closedCount}\nЧистая зп: ${totalPaycheck/2}`
+            return `Статистика за сегодня:\nЗаявок в модерне: ${modernCount}\nЗаявок закрытых: ${closedCount}\nЧистая зп: ${totalPaycheck/2}`
         }
 
-        return 'Тише тише ковбой. Закрой глаза, представь. Ты смотрите на бескрайнюю пустыню и где то вдали куда то стремительно катится перекати поле - это ваша статистика за сегодня)'
+        return 'Тише тише ковбой. Закрой глаза, представь. Ты смотришь на бескрайнюю пустыню и где то вдали куда то стремительно катится перекати поле - это твоия статистика за сегодня)'
     }
 }
 

@@ -153,6 +153,18 @@ label {
   margin-bottom: 3px;
 }
 
+.modern {
+  background-color: #F8E4BE;
+}
+
+.closed {
+  background-color: #AEC670;
+}
+
+.denied {
+  background-color: #F5704A;
+}
+
 /*--------------------------------MODAL*/
 
 .modal {

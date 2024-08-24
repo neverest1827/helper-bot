@@ -75,13 +75,14 @@ class AdminService {
         }
     }
 
-    async getRequests(time, status) {
+    async getRequests(time, status, chatId) {
         try {
             const timeFilter = this.getStartDateFilter(time);
             const statusFilter = this.getStatusFilter(status);
+            const chatFilter = chatId !== 'all' ? ` AND chat_id = ${chatId}` : '';
             const orderBy = ' ORDER BY r.date_from ASC;';
 
-            let filters = timeFilter + statusFilter + orderBy;
+            let filters = timeFilter + statusFilter + chatFilter + orderBy;
 
             let sql_getAllRequests = await sqlManager.getSQL('getAllRequests');
             sql_getAllRequests = sql_getAllRequests.replace('<FILTERS>', filters);
@@ -117,7 +118,6 @@ class AdminService {
     }
 
     async updateRequest(id, data) {
-        console.log(data)
         try {
             const phoneId = await this.createPhoneNumber(data.phone_number);
             const sql_updateRequest = await sqlManager.getSQL('updateRequest')
