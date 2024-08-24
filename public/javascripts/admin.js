@@ -3,10 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 function addListeners() {
-    addOpenBtnListeners()
-    addCreateBtnListeners()
-    addFilterListener()
-    addUpdateListeners()
+    addSearchListener();
+    addOpenBtnListeners();
+    addCreateBtnListeners();
+    addUpdateListeners();
+    addFilterListener();
 }
 
 function addOpenBtnListeners() {
@@ -106,4 +107,17 @@ function showInfo(result) {
     } else {
         alert('Да ебана рот, опять ты что то сломал... (--_--)')
     }
+}
+
+function addSearchListener(){
+    const searchForm = document.querySelector('.header__search-form');
+    searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(searchForm);
+        const phoneNumber = formData.get('phoneNumber');
+
+        const url = new URL(window.location.origin + `/admin/find/${encodeURIComponent(phoneNumber)}`);
+        window.location.href = url.toString();
+    })
 }

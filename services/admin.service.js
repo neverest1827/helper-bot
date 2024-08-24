@@ -202,6 +202,16 @@ class AdminService {
                 throw new Error('Invalid status filter');
         }
     }
+
+    async findByPhoneNumber(phoneNumber){
+        try {
+            const sql_findByNumber = await sqlManager.getSQL('findByNumber');
+            const [rows] = await pool.query(sql_findByNumber, [phoneNumber]);
+            return rows;
+        } catch (err) {
+            console.error(`Ошибка при поиске по номеру: ${err}`)
+        }
+    }
 }
 
 module.exports = new AdminService();

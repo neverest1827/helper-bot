@@ -1,9 +1,19 @@
 <section class="header">
     <div class="container">
         <div class="header__inner">
-            <button class="header__button create-request__btn" type="button" data-filter="request" >Создать заявку</button>
-            <button class="header__button create-chat__btn" type="button" data-filter="chat" >Споймать покемона</button>
-            <button class="header__button hide-chat__btn" type="button" data-filter="hide-chat">Отпустить покемона</button>
+            <div class="header__search">
+                <form action="" class="header__search-form">
+                    <label>
+                        <input name="phoneNumber" type="tel" placeholder="+375 __ ___ __ __" class="header__search-input">
+                    </label>
+                    <button class="header__search-btn">Поиск</button>
+                </form>
+            </div>
+            <div class="header__btn-box">
+                <button class="header__button create-request__btn" type="button" data-filter="request" >Создать заявку</button>
+                <button class="header__button create-chat__btn" type="button" data-filter="chat" >Споймать покемона</button>
+                <button class="header__button hide-chat__btn" type="button" data-filter="hide-chat">Отпустить покемона</button>
+            </div>
         </div>
     </div>
 </section>

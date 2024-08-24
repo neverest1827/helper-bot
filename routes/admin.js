@@ -40,4 +40,16 @@ router.post('/update/:id', upload.none(), async function(req, res) {
     res.json(result);
 });
 
+router.get('/find/:phoneNumber', async (req, res) =>{
+    const phoneNumber = req.params.phoneNumber || '';
+
+    const [requests, chats, statuses] = await Promise.all([
+        AdminService.findByPhoneNumber(phoneNumber),
+        AdminService.getChats(),
+        AdminService.getStatuses()
+    ]);
+
+    res.render('phone', {requests, chats, statuses});
+});
+
 module.exports = router;
