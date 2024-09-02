@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config();
+require('./cron');
 
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
@@ -23,7 +24,6 @@ app.set('view engine', 'ejs');
 
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
-
 
 app.post(`/bot${bot.token}`, (req, res) => {
     bot.processUpdate(req.body);

@@ -44,11 +44,29 @@ main {
   border: 1px solid #fff;
 }
 
+.header__link {
+  font-weight: bold;
+  padding: 8px 16px;
+  border: 1px solid #fff;
+  background-color: #ccc;
+  text-decoration: none;
+}
+
 .header__search-input {
   height: 38px;
 }
 
 /*--------------------------------FILTER*/
+#timeFilter {
+  display: flex;
+  flex-direction: column;
+}
+
+#datePicker {
+  margin-top: 5px;
+  height: 22px;
+  width: 116px;
+}
 
 .filter {
   padding: 50px;

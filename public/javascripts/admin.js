@@ -28,8 +28,12 @@ function addFilterListener() {
         const timeFilter = document.querySelector('select[name="timeFilter"]').value;
         const statusFilter = document.querySelector('select[name="statusFilter"]').value;
         const chatId = document.querySelector('select[name="chatFilter"]').value;
-
-        window.location.href = `/admin?timeFilter=${timeFilter}&statusFilter=${encodeURIComponent(statusFilter)}&chatFilter=${chatId}`;
+        if (timeFilter === 'custom') {
+            const date = document.getElementById('datePicker').value;
+            window.location.href = `/admin?timeFilter=${timeFilter}&statusFilter=${encodeURIComponent(statusFilter)}&chatFilter=${chatId}&date=${date}`;
+        } else {
+            window.location.href = `/admin?timeFilter=${timeFilter}&statusFilter=${encodeURIComponent(statusFilter)}&chatFilter=${chatId}`;
+        }
     });
 }
 
@@ -120,4 +124,13 @@ function addSearchListener(){
         const url = new URL(window.location.origin + `/admin/find/${encodeURIComponent(phoneNumber)}`);
         window.location.href = url.toString();
     })
+}
+
+function handleSelectChange(event) {
+    const datePicker = document.getElementById('datePicker');
+    if (event.target.value === 'custom') {
+        datePicker.style.display = 'inline';
+    } else {
+        datePicker.style.display = 'none';
+    }
 }

@@ -15,11 +15,18 @@
     <form class="filter">
         <fieldset>
             <legend>За период</legend>
-            <select name="timeFilter" id="timeFilter">
+            <select name="timeFilter" id="timeFilter" onchange="handleSelectChange(event)">
                 <option value="today" <%= timeFilter === 'today' ? 'selected' : '' %>>День</option>
                 <option value="month" <%= timeFilter === 'month' ? 'selected' : '' %>>Месяц</option>
                 <option value="all" <%= timeFilter === 'all' ? 'selected' : '' %>>Все время</option>
+                <option value="custom" <%= timeFilter === 'custom' ? 'selected' : '' %>>Выбрать дату</option>
             </select>
+            <!-- Инпут для выбора даты, который изначально скрыт -->
+            <% if (timeFilter === 'custom') { %>
+                <input type="date" id="datePicker" value="<%= date %>" style="display: inline;">
+            <% } else { %>
+                <input type="date" id="datePicker" style="display: none;">
+            <% } %>
         </fieldset>
 
         <fieldset>

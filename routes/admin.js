@@ -9,15 +9,24 @@ router.get('/', authMiddleware, async (req, res, next) => {
     const timeFilter = req.query.timeFilter ?? 'today';
     const statusFilter = req.query.statusFilter ?? 'all';
     const chatFilter = req.query.chatFilter ?? 'all';
+    const date = req.query.date ?? '';
 
     const [requests, chats, statuses] = await Promise.all([
-        AdminService.getRequests(timeFilter, statusFilter, chatFilter),
+        AdminService.getRequests(timeFilter, statusFilter, chatFilter, date),
         AdminService.getChats(),
         AdminService.getStatuses()
     ]);
 
-    res.render('admin', {requests, chats, statuses, timeFilter, statusFilter, chatFilter});
+    res.render('admin', {requests, chats, statuses, timeFilter, statusFilter, chatFilter, date});
 });
+
+router.get('/create-request', async (req, res) => {
+    const [chats, statuses] = await Promise.all([
+        AdminService.getChats(),
+        AdminService.getStatuses()
+    ]);
+    res.render('create-request', {chats, statuses});
+})
 
 router.post('/request', upload.none(), async (req, res) => {
     const result = await AdminService.createRequest(req.body)

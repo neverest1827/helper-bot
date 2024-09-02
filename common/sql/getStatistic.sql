@@ -13,4 +13,4 @@ WHERE
   AND
     r.update_date = ?
   AND
-    (r.status_id = 2 OR r.status_id = 3)
+    r.status_id != 1

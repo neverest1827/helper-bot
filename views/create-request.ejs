@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/stylesheets/reset.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <title>Создание заявки</title>
+</head>
+<body>
+<%- include('partials/header') %>
+<main>
+    <section class="modal modal--visible modal__request">
+        <div class="container">
+            <div id="requestModal" class="modal__inner">
+                <form class="form form--open form__create-request" action="">
+                    <div class="form-group">
+                        <label for="time-from">Время с:</label>
+                        <input id="time-from" class="time" type="datetime-local"  name="time-from" value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time-to">Время до:</label>
+                        <input id="time-to" class="time-to" type="time" name="time-to" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="chat_id">Покемон:</label>
+                        <select id="chat_id" class="chat_id" name="chat_id" required>
+                            <option value="" selected disabled>Выбери покемона</option>
+                            <% chats.forEach(chat => { %>
+                                <option value="<%= chat.id %>" %>>
+                                    <%= chat.name %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone_number">Номер телефона:</label>
+                        <input id="phone_number" class="phone_number" type="text"  name="phone_number" value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Имя:</label>
+                        <input id="name" class="name" type="text"  name="name" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Адрес:</label>
+                        <input id="address" class="address" type="text"  name="address" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="paycheck>">Чек:</label>
+                        <input id="paycheck" class="paycheck" type="number" step="10"  name="paycheck" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="status_id">Статус:</label>
+                        <select id="status_id" class="status_id" name="status_id">
+                            <% statuses.forEach(status => { %>
+                                <option value="<%= status.id %>" %>>
+                                    <%= status.value %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description>">Описания:</label>
+                        <textarea id="description" class="description" name="description" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin_notes">Заметки админа:</label>
+                        <textarea id="admin_notes" class="admin_notes" name="admin_notes" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="master_notes">Заметки мастера:</label>
+                        <textarea id="master_notes" class="master_notes" name="master_notes" rows="4"></textarea>
+                    </div>
+                    <button class="form__btn" type="submit">Сохранить</button>
+                    <button class="form__btn form__btn-close" type="button">Отменить</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+<%- include('partials/footer') %>
+<script src="/javascripts/create-request.js"></script>
+</body>
+</html>

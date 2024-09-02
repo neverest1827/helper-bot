@@ -29,7 +29,7 @@ class AdminService {
 
             const sql_findChat = await sqlManager.getSQL('findChat');
             const [chat] = await pool.query(sql_findChat, [data.chat_id]);
-            bot.sendMessage(chat[0].chat_id, 'Опа! Заявочка... Чиназес... Сюда)');
+            await bot.sendMessage(chat[0].chat_id, 'Опа! Заявочка... Чиназес... Сюда)');
             return { success: true }
         } catch (err) {
             console.error(`Ошибка при создании заявки: ${err}`)
@@ -75,9 +75,9 @@ class AdminService {
         }
     }
 
-    async getRequests(time, status, chatId) {
+    async getRequests(time, status, chatId, date) {
         try {
-            const timeFilter = this.getStartDateFilter(time);
+            const timeFilter = this.getStartDateFilter(time, date);
             const statusFilter = this.getStatusFilter(status);
             const chatFilter = chatId !== 'all' ? ` AND chat_id = ${chatId}` : '';
             const orderBy = ' ORDER BY r.date_from ASC;';
@@ -119,9 +119,10 @@ class AdminService {
 
     async updateRequest(id, data) {
         try {
+            const [result] = await pool.query(`SELECT chat_id FROM requests WHERE id = ?`, [ id ])
             const phoneId = await this.createPhoneNumber(data.phone_number);
             const sql_updateRequest = await sqlManager.getSQL('updateRequest')
-            const [result] = await pool.query(
+            await pool.query(
                 sql_updateRequest,
                 [
                     data.chat_id,
@@ -139,6 +140,11 @@ class AdminService {
                 ]
             );
 
+            if (result[0].chat_id !== Number(data.chat_id)) {
+                const sql_findChat = await sqlManager.getSQL('findChat');
+                const [result] = await pool.query(sql_findChat, [data.chat_id]);
+                await bot.sendMessage(result[0].chat_id, 'Опа! Заявочка... Чиназес... Сюда)');
+            }
             return { success: true }
         } catch (err) {
             console.error(`Ошибка при создании заявки: ${err}`)
@@ -162,12 +168,14 @@ class AdminService {
         }
     }
 
-    getStartDateFilter(time) {
+    getStartDateFilter(time, date) {
         if (time) {
             const today = new Date();
             let dateFrom;
 
             switch (time) {
+                case 'custom':
+                    return ` AND r.date_from BETWEEN '${date} 00:00:00' AND '${date} 23:59:59'`
                 case 'today':
                     dateFrom = today.toISOString().split('T')[0]; // Получаем только дату без времени
                     return ` AND DATE(r.date_from) = '${dateFrom}'`;
