@@ -1,6 +1,5 @@
 const cron = require('node-cron');
 const bot = require('./bot');
-const sqlManager = require('./common/sql.manager');
 const BotService = require('./services/bot.service');
 const pool = require('./db');
 
